@@ -18,7 +18,7 @@ class SearchBox extends Component {
             return res.json();
         })
         .then((data) => {
-            if (!data) return;
+            if (data['Response'] == 'False') return;
             store.dispatch({
                 type: 'SEARCH_MOVIE',
                 payload: {

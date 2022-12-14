@@ -17,13 +17,22 @@ class Favorites extends Component {
         });
     }
 
+    removeHandler(imdbID) {
+
+    }
+
     render() { 
         return (
             <div className="favorites">
                 <input value="Новый список" className="favorites__name" />
                 <ul className="favorites__list">
                     {this.state.movies.map((item) => {
-                        return <li key={item.id}>{item.title} ({item.year})</li>;
+                        return (
+                            <li className="favorites__item" key={item.imdbID}>
+                                {item.title} ({item.year})
+                                <button type="button" onClick={() => this.removeHandler(item.imdbID)}>X</button>
+                            </li>
+                        );
                     })}
                 </ul>
                 <button type="button" className="favorites__save">Сохранить список</button>
