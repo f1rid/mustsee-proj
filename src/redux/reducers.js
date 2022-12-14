@@ -5,7 +5,7 @@ const initialState = {
 
 function movieReducer(state = initialState, action) {
 	switch (action.type) {
-		case 'SEARCH_MOVIE':
+		case 'FETCH_MOVIES':
 			return {...state, movieList: action.payload.movies };
 
 		case 'ADD_TO_FAVORITES':

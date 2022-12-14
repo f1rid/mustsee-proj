@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './SearchBox.css';
 import store from '../../redux/store';
+import { fetchMoviesAction } from '../../redux/actions';
 
 class SearchBox extends Component {
     state = {
@@ -19,12 +20,7 @@ class SearchBox extends Component {
         })
         .then((data) => {
             if (data['Response'] == 'False') return;
-            store.dispatch({
-                type: 'SEARCH_MOVIE',
-                payload: {
-                    movies: data['Search']
-                }
-            });
+            store.dispatch(fetchMoviesAction(data['Search']));
         });
     }
     render() {
