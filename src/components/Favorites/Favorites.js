@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Favorites.css';
-
+import store from '../../redux/store';
 
 class Favorites extends Component {
     state = {
@@ -9,7 +9,12 @@ class Favorites extends Component {
     }
 
     componentDidMount() {
-        
+        store.subscribe(() => {
+            const state = store.getState();
+            this.setState({
+                movies: state.favoriteList
+            });
+        });
     }
 
     render() { 

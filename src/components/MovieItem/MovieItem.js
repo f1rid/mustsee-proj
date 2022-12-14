@@ -3,11 +3,13 @@ import store from '../../redux/store';
 import './MovieItem.css';
 
 class MovieItem extends Component {
-    addToFavorites() {
+    addToFavorites(title, year, imdbID) {
         store.dispatch({
             type: 'ADD_TO_FAVORITES',
             payload: {
-                title:
+                title: title,
+                year: year,
+                imdbID: imdbID
             }
         });
     }
@@ -19,7 +21,7 @@ class MovieItem extends Component {
                 <img className="movie-item__poster" src={Poster} alt={Title} />
                 <div className="movie-item__info">
                     <h3 className="movie-item__title">{Title}&nbsp;({Year})</h3>
-                    <button type="button" className="movie-item__add-button" onClick={this.addToFavorites(Title, Year)}>Добавить в список</button>
+                    <button type="button" className="movie-item__add-button" onClick={() => this.addToFavorites(Title, Year, imdbID)}>Добавить в список</button>
                 </div>
             </article>
         );
