@@ -12,6 +12,12 @@ function movieReducer(state = initialState, action) {
 			const findItem = state.favoriteList.some((movie) => movie.imdbID === action.payload.imdbID);
 			return findItem ? state : {...state, favoriteList: [...state.favoriteList, action.payload]};
 
+		case 'REMOVE_FROM_FAVORITES':
+			return {
+				...state, 
+				favoriteList: state.favoriteList.filter((movie) => movie.imdbID !== action.payload.imdbID)
+			};
+
 		default:
 			return state;
 	}

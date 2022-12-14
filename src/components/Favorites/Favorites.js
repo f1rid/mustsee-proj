@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
 import './Favorites.css';
 import store from '../../redux/store';
+import { removeFromFavroitesAction } from '../../redux/actions';
+import { Link } from 'react-router-dom';
 
 class Favorites extends Component {
     state = {
         title: 'Новый список',
-        movies: []
+        movies: [],
+        listLink: '',
+    }
+
+    titleChangeHandler = (e) => {
+        this.setState({ title: e.target.value });
     }
 
     componentDidMount() {
@@ -17,14 +24,36 @@ class Favorites extends Component {
         });
     }
 
-    removeHandler(imdbID) {
+    removeHandler = (imdbID) => {
+        store.dispatch(removeFromFavroitesAction(imdbID));
+    }
 
+    saveHandler = () => {
+        const { title, movies } = { ...this.state };
+        if (title.trim().length == 0 || movies.length == 0) return;
+        fetch('https://acb-api.algoritmika.org/api/movies/list', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify({
+                movies: this.state.movies.map((movie) => { return movie.imdbID })
+            }),
+        })
+        .then((res) => {
+            return res.json();
+        })
+        .then((data) => {
+            this.setState({
+                listLink: `/list/${data['id']}`
+            })
+        });
     }
 
     render() { 
         return (
             <div className="favorites">
-                <input value="Новый список" className="favorites__name" />
+                <input placeholder={this.state.title} className="favorites__name" onChange={this.titleChangeHandler} />
                 <ul className="favorites__list">
                     {this.state.movies.map((item) => {
                         return (
@@ -35,7 +64,12 @@ class Favorites extends Component {
                         );
                     })}
                 </ul>
-                <button type="button" className="favorites__save">Сохранить список</button>
+                {
+                this.state.listLink.length > 0 ?
+                <Link to={this.state.listLink}>Перейти к списку</Link>
+                :
+                <button type="button" className="favorites__save" onClick={this.saveHandler} disabled={!this.state.title}>Сохранить список</button>
+                }
             </div>
         );
     }

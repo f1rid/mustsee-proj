@@ -6,10 +6,17 @@ export const fetchMoviesAction = (movies) => ({
 });
 
 export const addToFavoritesAction = (imdbID, title, year) => ({
-    type: 'ADD_TO_FAVORITE',
+    type: 'ADD_TO_FAVORITES',
     payload: {
         imdbID: imdbID,
         title: title,
         year: year,
+    }
+});
+
+export const removeFromFavroitesAction = (imdbID) => ({
+    type: 'REMOVE_FROM_FAVORITES',
+    payload: {
+        imdbID: imdbID
     }
 });
