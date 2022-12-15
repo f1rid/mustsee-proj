@@ -37,6 +37,7 @@ class Favorites extends Component {
                 'Content-type': 'application/json',
             },
             body: JSON.stringify({
+                title: this.state.title,
                 movies: this.state.movies.map((movie) => { return movie.imdbID })
             }),
         })
