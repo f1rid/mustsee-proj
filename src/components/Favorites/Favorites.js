@@ -9,6 +9,7 @@ class Favorites extends Component {
         title: 'Новый список',
         movies: [],
         listLink: '',
+        inputDisabled: false,
     }
 
     titleChangeHandler = (e) => {
@@ -29,6 +30,16 @@ class Favorites extends Component {
     }
 
     saveHandler = () => {
+        this.setState({
+            inputDisabled: true,
+        });
+
+        setTimeout(() => {
+            this.setState({
+                inputDisabled: false,
+            })
+        }, 1000);
+
         const { title, movies } = { ...this.state };
         if (title.trim().length == 0 || movies.length == 0) return;
         fetch('https://acb-api.algoritmika.org/api/movies/list', {
@@ -54,7 +65,7 @@ class Favorites extends Component {
     render() { 
         return (
             <div className="favorites">
-                <input placeholder={this.state.title} className="favorites__name" onChange={this.titleChangeHandler} />
+                <input placeholder={this.state.title} className="favorites__name" onChange={this.titleChangeHandler} disabled={this.state.inputDisabled} />
                 <ul className="favorites__list">
                     {this.state.movies.map((item) => {
                         return (
@@ -67,7 +78,7 @@ class Favorites extends Component {
                 </ul>
                 {
                 this.state.listLink.length > 0 ?
-                <Link to={this.state.listLink}>Перейти к списку</Link>
+                <Link to={this.state.listLink} target="_blank">Перейти к списку</Link>
                 :
                 <button type="button" className="favorites__save" onClick={this.saveHandler} disabled={!this.state.title}>Сохранить список</button>
                 }
